@@ -1,0 +1,9 @@
+debug -o put.debug 6
+set ftp:ssl-protect-data true
+set net:max-retries 1
+open ftp.box.com
+lcd ../../data
+cd ftptest/scidmz
+put 1-gigabyte
+rm 1-gigabyte
+bye
