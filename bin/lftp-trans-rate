@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# extract transfer rate details for lftp transfer from a screen log
+
+sed -e 's//\n/g' $1 | awk '/M\/s/{print $5}'
