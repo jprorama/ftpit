@@ -1,0 +1,8 @@
+set net:max-retries 1
+debug -o put.debug 6
+open ftp.box.com
+lcd ../../data
+cd ftptest/scidmz
+put 1-gigabyte
+rm 1-gigabyte
+bye

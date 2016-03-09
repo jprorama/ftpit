@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# test ftp transfers using a defined test
+#
+# customize the environment to isolate results
+
+basedir=`pwd`
+
+# job dir
+jobdir=$basedir/job
+
+# tag test and log files
+datetag=`date +%Y-%m-%d-%H-%M-%S`
+
+# test output
+logdir=$basedir/log/$datetag
+
+# test directory
+mkdir -p $logdir
+
+# define screen log file
+
+cd $logdir
+screen -LdmS ftp-test lftp -f $jobdir/$1
