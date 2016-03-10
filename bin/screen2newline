@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# convert line redrawing in screen output to newlines
+# helpful when running a tool that prints progress updates on a single line
+# adds newlines to allow parsing output with other tools, eg. awk
+
+sed -e 's/^M/\n/g'
