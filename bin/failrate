@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# report the failure rate of ftp transfers
+# based on finding a 551 error tag in the lftp debug log 
+
+fails=`grep -lR 551 $@ | wc -l`
+runs=`ls -1 $@ | wc -l`
+
+echo "scale=2; $fails/$runs" | bc
