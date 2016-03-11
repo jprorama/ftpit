@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# compute lftp transfer average as reported in transfer log file
+# 
+# Note that this assumes lftp results reported in "M"ebibytes/sec
+# hense the "M" delimiter.  This is a safe assumption for transfers
+# greater than 1 Mebibyte (1024*1024 bytes).
+
+awk '{print $NF}' | awk -FM '{sum=sum+$1} END {print sum/NR}'
