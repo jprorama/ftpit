@@ -18,6 +18,9 @@ logdir=$basedir/log/$datetag
 # test directory
 mkdir -p $logdir
 
+# set lftp transfer_log file location
+export LFTP_HOME=$logdir
+
 # define screen log file
 
 cd $logdir
