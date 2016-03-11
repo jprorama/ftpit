@@ -6,4 +6,4 @@
 fails=`grep -lR 551 $@ | wc -l`
 runs=`ls -1 $@ | wc -l`
 
-echo "scale=2; $fails/$runs" | bc
+printf "%.2f\n" $(echo "$fails/$runs" | bc -l)
