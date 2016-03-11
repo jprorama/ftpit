@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# compute the transfer average from the status line rate updates
+#
+# note that this will produce a different rate than the one in the lftp transfer log
+# the reason is because the status line is alwasy averaged over a one second time interval
+# irrespective of the actual fractional second time it may have taken.
+# The rate in the log file is based on the time from start measured bytes to the end of 
+# transfer. See the Speedometer.cc for details:
+#
+# https://github.com/lavv17/lftp/blob/master/src/Speedometer.cc#L51 
+# 
+# Unfortunately the actual transfer time is not reported anywhere and not rate is recorded
+# for failed transfers.  Hence this estimate.
+
+screen2newline $@ | awk '/M\/s eta.*\[Sending data/{print $5}' | awk -FM '{sum=sum + $1}END{print sum/NR}'
