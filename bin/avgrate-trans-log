@@ -2,8 +2,13 @@
 
 # compute lftp transfer average as reported in transfer log file
 # 
-# Note that this assumes lftp results reported in "M"ebibytes/sec
-# hense the "M" delimiter.  This is a safe assumption for transfers
-# greater than 1 Mebibyte (1024*1024 bytes).
+# the reported average is in Mebibytes/sec
+# the average function works with all rage formats produced by lftp
+# Speedometer::GetStr() method
+#
+# https://github.com/lavv17/lftp/blob/master/src/Speedometer.cc#L84
 
-awk '{print $NF}' | awk -FM '{sum=sum+$1} END {print sum/NR}'
+awk '{ if ( match($NF, "M/s" )) {split($NF, r, "M"); sum=sum + r[1]}; 
+       if ( match($NF, "K/s" )) {split($NF, r, "K"); sum=sum + r[1]/1024.};
+       if ( match($NF, "b/s" )) {split($NF, r, "b"); sum=sum + r[1]/(1024. * 1024)}
+     } END {print sum/NR}'
