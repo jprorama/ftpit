@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# print report of transfer averages with date of capture and error state
+# argument is a pattern of the screenlog.0 file used to caputure transfer ouput
+
+for file in $@
+do
+  datadir=`dirname $file`
+  datetag=`basename $datadir | awk -F- '{print $1"-"$2"-"$3" "$4":"$5":"$6}'`
+  transrate=`avgrate $file`
+  if `grep -- '--- 551' $datadir/put.debug > /dev/null` 
+  #echo $?
+  #error=$?
+  #if [ $? ]
+  then
+    error=1
+  else
+    error=0
+  fi
+  echo $datetag, $transrate, $error
+done
