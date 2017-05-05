@@ -1,0 +1,9 @@
+debug -o get.debug 6
+set ftp:ssl-protect-data true
+set net:max-retries 1
+open ftp.box.com
+lcd ../../data/tmp
+cd ftptest/
+get 1-gigabyte
+!lrm 1-gigabyte
+bye

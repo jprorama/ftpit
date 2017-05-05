@@ -1,0 +1,9 @@
+set net:max-retries 1
+set xfer:clobber yes
+debug -o get.debug 6
+open ftp.box.com
+lcd ../../data/tmp
+cd ftptest/
+get 1-gigabyte
+!rm 1-gigabyte
+bye
