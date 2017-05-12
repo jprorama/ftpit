@@ -1,0 +1,8 @@
+set net:max-retries 1
+debug -o put.debug 6
+open ftp.box.com
+lcd ../../data/parallel-test-4
+cd ftptest/scidmz-parallel-4
+mirror -R -P4
+mrm 1-gigabyte*
+bye
