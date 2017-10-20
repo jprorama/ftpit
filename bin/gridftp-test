@@ -1,0 +1,67 @@
+#!/bin/bash 
+
+# test gridftp transfers using a defined test
+#
+# customize the environment to isolate results
+
+DEST=${1:-"scidmz"}
+
+basedir=`pwd`
+
+# job dir
+jobdir=$basedir/job
+
+# tag test and log files
+datetag=`date +%Y-%m-%d-%H-%M-%S`
+
+# test output
+logdir=$basedir/log/globus/$datetag
+
+# test directory
+mkdir -p $logdir
+
+# set lftp transfer_log file location
+export LFTP_HOME=$logdir
+
+# define screen log file
+
+cd $logdir
+
+# initialaize globus cli env
+# 
+# source .bashrc to load module function for non-interactive cron job
+# https://unix.stackexchange.com/questions/194893/why-cant-i-load-modules-while-executing-my-bash-script-but-only-when-sourcing
+#
+source ~/.bashrc
+
+# initialize globus command environment
+module load Python/2.7.12-foss-2016b
+source $HOME/.globus-cli-virtualenv/bin/activate
+
+# acquired enpoints for ANL and UAB from
+# globus endpoint search anl
+# globus endpoint search uab
+epanl=dabdce62-6d04-11e5-ba46-22000b92c6ec
+eplbl=db57ddde-6d04-11e5-ba46-22000b92c6ec
+epdtn1=7167cb38-9f78-11e6-b0dd-22000b92c261
+epdtn2pub=0aec2dca-9f84-11e6-b0dd-22000b92c261
+epdtn2=9c8c88c2-ea4a-11e6-b9ba-22000b9a448b
+
+if [ $DEST == "scidmz" ]
+then
+   globus transfer $epanl:/data1/500GB-in-large-files $epdtn1:/~/ --recursive --label "500GB in large files SciDMZ" > $logdir/scidmz-trans.out
+elif [ $DEST == "uabdtn2" ]
+then
+   globus transfer $epanl:/data1/500GB-in-large-files $epdtn2pub:/~/ --recursive --label "500GB in large files uab-dtn2" > $logdir/uabdtn2-trans.out
+elif [ $DEST == "lbl2uabdtn2" ]
+then
+   globus transfer $eplbl:/data1/500GB-in-large-files $epdtn2pub:/~/lbl/ --recursive --label "500GB in large files lbl to uab-dtn2" > $logdir/lbl2uabdtn2-trans.out
+elif [ $DEST == "lbl2scidmz" ]
+then
+   globus transfer $eplbl:/data1/500GB-in-large-files $epdtn1:/~/lbl/ --recursive --label "500GB in large files LBL to SciDMZ" > $logdir/lbl2scidmz-trans.out
+elif [ $DEST == "lbl2paloalto" ]
+then
+   globus transfer $eplbl:/data1/500GB-in-large-files $epdtn2:/~/lbl/ --recursive --label "500GB in large files LBL to PaloAlto" > $logdir/lbl2paloalto-trans.out
+else
+   globus transfer $epanl:/data1/500GB-in-large-files $epdtn2:/~/ --recursive --label "500GB in large files PaloAlto" > $logdir/pa-trans.out
+fi
