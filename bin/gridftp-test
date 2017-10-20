@@ -56,6 +56,12 @@ then
 elif [ $DEST == "lbl2uabdtn2" ]
 then
    globus transfer $eplbl:/data1/500GB-in-large-files $epdtn2pub:/~/lbl/ --recursive --label "500GB in large files lbl to uab-dtn2" > $logdir/lbl2uabdtn2-trans.out
+elif [ $DEST == "lbl2scidmz" ]
+then
+   globus transfer $eplbl:/data1/500GB-in-large-files $epdtn1:/~/lbl/ --recursive --label "500GB in large files LBL to SciDMZ" > $logdir/lbl2scidmz-trans.out
+elif [ $DEST == "lbl2paloalto" ]
+then
+   globus transfer $eplbl:/data1/500GB-in-large-files $epdtn2:/~/lbl/ --recursive --label "500GB in large files LBL to PaloAlto" > $logdir/lbl2paloalto-trans.out
 else
    globus transfer $epanl:/data1/500GB-in-large-files $epdtn2:/~/ --recursive --label "500GB in large files PaloAlto" > $logdir/pa-trans.out
 fi
